@@ -1,0 +1,23 @@
+name: build-and-release
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Upstream tag to build (e.g. v5.36.0)"
+        required: false
+
+env:
+  UPSTREAM: TwiN/gatus
+
+jobs:
+  detect:
+    name: Detect latest version
+    runs-on: ubuntu-latest
+
+  build-release:
+    name: Build release
+    needs: detect
+    runs-on: ubuntu-latest
