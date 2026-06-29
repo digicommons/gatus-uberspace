@@ -44,8 +44,18 @@ jobs:
             echo "should_build=true" >> "$GITHUB_OUTPUT"
           fi
 
+  build-release:
+    name: Build release
+    needs: detect
+    if: needs.detect.outputs.should_build == 'true'
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ needs.detect.outputs.tag }}
+    steps:
+      - name: Checkout upstream at tag
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ env.UPSTREAM }}
+          ref: ${{ env.TAG }}
+          path: gatus-src
 
-#  build-release:
-#    name: Build release
-#    needs: detect
-#    runs-on: ubuntu-latest
