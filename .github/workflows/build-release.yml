@@ -58,4 +58,17 @@ jobs:
           repository: ${{ env.UPSTREAM }}
           ref: ${{ env.TAG }}
           path: gatus-src
-
+      - name: Set up Go (version pinned by upstream go.mod)
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: gatus-src/go.mod
+      - name: Build static linux/amd64 binary
+        working-directory: gatus-src
+        env:
+          CGO_ENABLED: "0"
+          GOOS: linux
+          GOARCH: amd64
+        run: |
+          go build -trimpath -ldflags "-s -w" -o gatus .
+          file gatus
+          file gatus | grep -q "statically linked"  # Was compiled properly into a statically linked binary
