@@ -31,7 +31,7 @@ jobs:
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "Resolved upstream tag: $TAG"
 
-  build-release:
-    name: Build release
-    needs: detect
-    runs-on: ubuntu-latest
+#  build-release:
+#    name: Build release
+#    needs: detect
+#    runs-on: ubuntu-latest
