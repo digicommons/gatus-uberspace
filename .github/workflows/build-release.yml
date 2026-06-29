@@ -49,6 +49,9 @@ jobs:
     needs: detect
     if: needs.detect.outputs.should_build == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write       # needed for attesting build provenance
+      attestations: write   # needed for attesting build provenance
     env:
       TAG: ${{ needs.detect.outputs.tag }}
     steps:
@@ -72,3 +75,16 @@ jobs:
           go build -trimpath -ldflags "-s -w" -o gatus .
           file gatus
           file gatus | grep -q "statically linked"  # Was compiled properly into a statically linked binary
+      - name: Package binary, LICENSE and checksum
+        working-directory: gatus-src
+        run: |
+          ARTIFACT="gatus_${TAG}_linux_amd64.tar.gz"
+          tar -czf "$ARTIFACT" gatus LICENSE
+          sha256sum "$ARTIFACT" > "$ARTIFACT.sha256"
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: gatus-src/gatus_${{ env.TAG }}_linux_amd64.tar.gz
+
+      
+
