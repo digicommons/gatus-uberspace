@@ -6,6 +6,7 @@ Currently, [TwiN/gatus](https://github.com/TwiN/gatus) doesn't provide precompil
 
 Each release is built from the unmodified upstream source at the matching tag with `CGO_ENABLED=0 go build`.
 
-This project is not affiliated with, sponsored by, or endorsed by the Gatus project or its author. "Gatus" is used only to describe what these binaries are.
+> [!IMPORTANT]
+> This project is not affiliated with, sponsored by, or endorsed by the Gatus project or its author. "Gatus" is used only to describe what these binaries are.
 
-Licensed under Apache-2.0; see the LICENSE bundled in each release artifact.
+Licensed under Apache-2.0. Also see the LICENSE bundled in each release artifact for the license of the upstream project.
