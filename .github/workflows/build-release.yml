@@ -85,6 +85,24 @@ jobs:
         uses: actions/attest-build-provenance@v4
         with:
           subject-path: gatus-src/gatus_${{ env.TAG }}_linux_amd64.tar.gz
+      - name: Create release
+        working-directory: gatus-src
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ARTIFACT="gatus_${TAG}_linux_amd64.tar.gz"
+          gh release create "$TAG" \
+            -R "$GITHUB_REPOSITORY" \
+            --title "${TAG}" \
+            --notes "Unofficial, statically-linked \`linux/amd64\` build of upstream [TwiN/gatus](https://github.com/TwiN/gatus) at tag \`${TAG}\`, packaged for deployment on [Uberspace](https://uberspace.de).
+ 
+          Built from unmodified upstream source with \`CGO_ENABLED=0 go build\`.
+          
+          Not affiliated with nor endorsed by the Gatus project or TwiN.
 
-      
+          **Upstream release notes:** https://github.com/TwiN/gatus/releases/tag/${TAG}
+
+          Verify checksum: \`sha256sum -c ${ARTIFACT}.sha256\`" \
+            "$ARTIFACT" "$ARTIFACT.sha256"
+
 
