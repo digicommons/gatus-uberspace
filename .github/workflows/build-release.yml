@@ -50,6 +50,7 @@ jobs:
     if: needs.detect.outputs.should_build == 'true'
     runs-on: ubuntu-latest
     permissions:
+      contents: write       # needed for creating releases
       id-token: write       # needed for attesting build provenance
       attestations: write   # needed for attesting build provenance
     env:
